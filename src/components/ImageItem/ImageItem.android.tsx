@@ -6,22 +6,20 @@
  *
  */
 
-import React, { useState, useCallback } from "react";
-
+import React, { useCallback, useState } from "react";
 import {
   Animated,
-  Dimensions,
-  StyleSheet,
-  NativeScrollEvent,
-  NativeSyntheticEvent,
+  Dimensions, NativeScrollEvent,
+  NativeSyntheticEvent, StyleSheet
 } from "react-native";
-
+import { ImageSource } from "../../@types";
 import useImageDimensions from "../../hooks/useImageDimensions";
 import usePanResponder from "../../hooks/usePanResponder";
-
 import { getImageStyles, getImageTransform } from "../../utils";
-import { ImageSource } from "../../@types";
 import { ImageLoading } from "./ImageLoading";
+
+
+
 
 const SWIPE_CLOSE_OFFSET = 75;
 const SWIPE_CLOSE_VELOCITY = 1.75;
@@ -34,6 +32,7 @@ type Props = {
   onRequestClose: () => void;
   onZoom: (isZoomed: boolean) => void;
   onLongPress: (image: ImageSource) => void;
+  onLoadImage: (isLoaded: boolean) => void;
   delayLongPress: number;
   swipeToCloseEnabled?: boolean;
   doubleTapToZoomEnabled?: boolean;
@@ -44,6 +43,7 @@ const ImageItem = ({
   onZoom,
   onRequestClose,
   onLongPress,
+  onLoadImage,
   delayLongPress,
   swipeToCloseEnabled = true,
   doubleTapToZoomEnabled = true,
@@ -54,7 +54,10 @@ const ImageItem = ({
   const scrollValueY = new Animated.Value(0);
   const [isLoaded, setLoadEnd] = useState(false);
 
-  const onLoaded = useCallback(() => setLoadEnd(true), []);
+  const onLoaded = useCallback(() => {
+    setLoadEnd(true); 
+    onLoadImage(true)
+  }, []);
   const onZoomPerformed = (isZoomed: boolean) => {
     onZoom(isZoomed);
     if (imageContainer?.current) {

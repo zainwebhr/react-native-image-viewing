@@ -9,22 +9,19 @@
 import React, { ComponentType, useCallback, useEffect } from "react";
 import {
   Animated,
-  Dimensions,
-  StyleSheet,
+  Dimensions, Modal, ModalProps, StyleSheet,
   View,
-  VirtualizedList,
-  ModalProps,
-  Modal,
+  VirtualizedList
 } from "react-native";
-
-import ImageItem from "./components/ImageItem/ImageItem";
+import { ImageSource } from "./@types";
 import ImageDefaultHeader from "./components/ImageDefaultHeader";
+import ImageItem from "./components/ImageItem/ImageItem";
 import StatusBarManager from "./components/StatusBarManager";
-
 import useAnimatedComponents from "./hooks/useAnimatedComponents";
 import useImageIndexChange from "./hooks/useImageIndexChange";
 import useRequestClose from "./hooks/useRequestClose";
-import { ImageSource } from "./@types";
+
+
 
 type Props = {
   images: ImageSource[];
@@ -33,6 +30,7 @@ type Props = {
   onRequestClose: () => void;
   onLongPress?: (image: ImageSource) => void;
   onImageIndexChange?: (imageIndex: number) => void;
+  onLoadImage?: (isLoaded: boolean) => void;
   presentationStyle?: ModalProps["presentationStyle"];
   animationType?: ModalProps["animationType"];
   backgroundColor?: string;
@@ -56,6 +54,7 @@ function ImageViewing({
   onRequestClose,
   onLongPress = () => {},
   onImageIndexChange,
+  onLoadImage = () => {},
   animationType = DEFAULT_ANIMATION_TYPE,
   backgroundColor = DEFAULT_BG_COLOR,
   presentationStyle,
@@ -140,6 +139,7 @@ function ImageViewing({
               imageSrc={imageSrc}
               onRequestClose={onRequestCloseEnhanced}
               onLongPress={onLongPress}
+              onLoadImage={onLoadImage}
               delayLongPress={delayLongPress}
               swipeToCloseEnabled={swipeToCloseEnabled}
               doubleTapToZoomEnabled={doubleTapToZoomEnabled}

@@ -7,7 +7,6 @@
  */
 
 import React from "react";
-import { GestureResponderEvent } from "react-native";
 import { ImageSource } from "../../@types";
 
 declare type Props = {
@@ -15,6 +14,7 @@ declare type Props = {
   onRequestClose: () => void;
   onZoom: (isZoomed: boolean) => void;
   onLongPress: (image: ImageSource) => void;
+  onLoadImage: (isLoaded: boolean) => void;
   delayLongPress: number;
   swipeToCloseEnabled?: boolean;
   doubleTapToZoomEnabled?: boolean;
@@ -25,6 +25,7 @@ declare const _default: React.MemoExoticComponent<({
   onZoom,
   onRequestClose,
   onLongPress,
+  onLoadImage,
   delayLongPress,
   swipeToCloseEnabled,
 }: Props) => JSX.Element>;

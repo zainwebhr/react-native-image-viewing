@@ -7,25 +7,20 @@
  */
 
 import React, { useCallback, useRef, useState } from "react";
-
 import {
   Animated,
-  Dimensions,
-  ScrollView,
-  StyleSheet,
-  View,
-  NativeScrollEvent,
-  NativeSyntheticEvent,
-  TouchableWithoutFeedback,
-  GestureResponderEvent,
+  Dimensions, GestureResponderEvent, NativeScrollEvent,
+  NativeSyntheticEvent, ScrollView,
+  StyleSheet, TouchableWithoutFeedback, View
 } from "react-native";
-
+import { ImageSource } from "../../@types";
 import useDoubleTapToZoom from "../../hooks/useDoubleTapToZoom";
 import useImageDimensions from "../../hooks/useImageDimensions";
-
 import { getImageStyles, getImageTransform } from "../../utils";
-import { ImageSource } from "../../@types";
 import { ImageLoading } from "./ImageLoading";
+
+
+
 
 const SWIPE_CLOSE_OFFSET = 75;
 const SWIPE_CLOSE_VELOCITY = 1.55;
@@ -38,6 +33,7 @@ type Props = {
   onRequestClose: () => void;
   onZoom: (scaled: boolean) => void;
   onLongPress: (image: ImageSource) => void;
+  onLoadImage: (load: boolean) => void;
   delayLongPress: number;
   swipeToCloseEnabled?: boolean;
   doubleTapToZoomEnabled?: boolean;
@@ -48,6 +44,7 @@ const ImageItem = ({
   onZoom,
   onRequestClose,
   onLongPress,
+  onLoadImage,
   delayLongPress,
   swipeToCloseEnabled = true,
   doubleTapToZoomEnabled = true,
@@ -113,6 +110,12 @@ const ImageItem = ({
     [imageSrc, onLongPress]
   );
 
+  const onLoad = () => {
+   
+    onLoadImage(true);
+    setLoaded(true);
+  }
+
   return (
     <View>
       <ScrollView
@@ -140,7 +143,7 @@ const ImageItem = ({
           <Animated.Image
             source={imageSrc}
             style={imageStylesWithOpacity}
-            onLoad={() => setLoaded(true)}
+            onLoad={onLoad}
           />
         </TouchableWithoutFeedback>
       </ScrollView>
